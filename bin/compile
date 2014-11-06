@@ -37,6 +37,11 @@ mkdir -p "$APT_STATE_DIR/lists/partial"
 
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
 
+if [ -f $BUILD_DIR/.apt/sources.list ]; then
+    echo 'Found custom source list'
+    APT_OPTIONS="${APT_OPTIONS} -o Dir::Etc::SourceList=${BUILD_DIR}/.apt/sources.list"
+fi
+
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
