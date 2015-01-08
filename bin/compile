@@ -40,6 +40,13 @@ APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
+if [ -e $BUILD_DIR/Ppafile ]; then
+  for PPA in $(cat $BUILD_DIR/Ppafile); do
+    topic "Adding APT repository $PPA"
+    add-apt-repository -y $PPA | indent
+  done
+fi
+
 for PACKAGE in $(cat $BUILD_DIR/Aptfile); do
   if [[ $PACKAGE == *deb ]]; then
     PACKAGE_NAME=$(basename $PACKAGE .deb)
