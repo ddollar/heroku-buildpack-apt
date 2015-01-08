@@ -43,14 +43,17 @@ apt-get $APT_OPTIONS update | indent
 if [ -e $BUILD_DIR/Ppafile ]; then
   #topic "Adding keys"
   #apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7FCC7D46ACCC4CF8
-  topic "Starting to add APT PPA repository sources"
-  # Install software-properties-common to get the "add-apt-repository" utility
+
+  topic 'Installing the "add-apt-repository" utility'
   apt-get $APT_OPTIONS -y --force-yes install --reinstall python-software-properties | indent
+  ls /usr/bin/add-apt-repository
+
   # Look for and install PPA's from Ppafile
   for PPA in $(cat $BUILD_DIR/Ppafile); do
     topic "Adding APT PPA repository $PPA"
     add-apt-repository $APT_OPTIONS -y $PPA | indent
   done
+
   # update again
   topic "Updating apt caches again, with PPA's"
   apt-get $APT_OPTIONS update | indent
