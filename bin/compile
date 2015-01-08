@@ -42,12 +42,12 @@ apt-get $APT_OPTIONS update | indent
 
 if [ -e $BUILD_DIR/Ppafile ]; then
   topic "Starting to add APT PPA repository sources"
-  # Install python-software-properties to get the "add-apt-repository" utility
-  apt-get $APT_OPTIONS -y --force-yes -d install --reinstall python-software-properties | indent
+  # Install software-properties-common to get the "add-apt-repository" utility
+  apt-get $APT_OPTIONS -y --force-yes -d install --reinstall software-properties-common | indent
   # Look for and install PPA's from Ppafile
   for PPA in $(cat $BUILD_DIR/Ppafile); do
     topic "Adding APT PPA repository $PPA"
-    add-apt-repository -y $PPA | indent
+    add-apt-repository $APT_OPTIONS -y $PPA | indent
   done
   # update again
   topic "Updating apt caches again, with PPA's"
