@@ -6,7 +6,9 @@ Add support for apt-based dependencies during both compile and runtime.
 
 This buildpack works best with [heroku-buildpack-multi](https://github.com/ddollar/heroku-buildpack-multi) so that it can be used with your app's existing buildpacks.
 
-Include a list of apt package names to be installed in a file named `Aptfile`
+Include a list of apt package names to be installed in a file named `Aptfile`.
+If necessary, you can also add PPA sources in a
+`Ppafile`.
 
 ## Example
 
@@ -14,6 +16,11 @@ Include a list of apt package names to be installed in a file named `Aptfile`
 
     https://github.com/ddollar/heroku-buildpack-apt
     https://github.com/heroku/heroku-buildpack-ruby
+
+#### Ppafile
+
+    ppa:ubuntu-toolchain-r/test
+
 
 #### Aptfile
 
@@ -24,14 +31,14 @@ Include a list of apt package names to be installed in a file named `Aptfile`
 
     source "https://rubygems.org"
     gem "pg"
-    
+
 ### Compile with [Anvil](https://github.com/ddollar/anvil-cli)
 
     $ heroku plugins:install https://github.com/ddollar/heroku-build
-    
+
     $ heroku create apt-pg-test
-    
-    $ heroku build . -b ddollar/multi -r 
+
+    $ heroku build . -b ddollar/multi -r
 	Checking for app files to sync... done, 2 files needed
 	Uploading: 100.0%
 	Launching build process... done
@@ -55,7 +62,7 @@ Include a list of apt package names to be installed in a file named `Aptfile`
 	Creating slug... done
 	Uploading slug... done
 	Success, slug is https://api.anvilworks.org/slugs/00000000-0000-0000-0000-0000000000.tgz
-	
+
 ### Check out the PG library version
 
     $ heroku run bash -a apt-pg-test
@@ -64,7 +71,7 @@ Include a list of apt package names to be installed in a file named `Aptfile`
 	=> true
 	irb(main):002:0> PG::version_string
 	=> "PG 0.15.1"
-	
+
 ## License
 
 MIT
