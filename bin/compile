@@ -41,8 +41,8 @@ topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
 if [ -e $BUILD_DIR/Ppafile ]; then
-  topic "Adding keys"
-  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7FCC7D46ACCC4CF8
+  #topic "Adding keys"
+  #apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7FCC7D46ACCC4CF8
   topic "Starting to add APT PPA repository sources"
   # Install software-properties-common to get the "add-apt-repository" utility
   apt-get $APT_OPTIONS -y --force-yes -d install --reinstall software-properties-common | indent
