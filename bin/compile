@@ -84,15 +84,15 @@ topic "Update shared object links"
 IFS=$'\n'
 LIB_DEF=".* lib.*so.*-> "
 SED_DEF="s/\(.* lib.*so.*-> \)\(.*\)/\2/"
-LIST=$(ls -lah /app/.apt/usr/lib | grep "$LIB_DEF" | sed "$SED_DEF")
+LIST=$(ls -lah $BUILD_DIR/.apt/usr/lib | grep "$LIB_DEF" | sed "$SED_DEF")
 for i in $LIST
 do
-    if [ ! -e /app/.apt/usr/lib/$i ]
+    if [ ! -e $BUILD_DIR/.apt/usr/lib/$i ]
     then
 	if [ -e /usr/lib/$i ]
         then
-            ln -s /usr/lib/$i /app/.apt/usr/lib/$i
-	    indent "/app/.apt/usr/lib/$i -> /usr/lib/$i"
+            ln -s /usr/lib/$i $BUILD_DIR/.apt/usr/lib/$i
+	    indent "$BUILD_DIR/.apt/usr/lib/$i -> /usr/lib/$i"
         fi
     fi
 done
