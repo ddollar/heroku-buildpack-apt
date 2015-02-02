@@ -37,6 +37,9 @@ mkdir -p "$APT_STATE_DIR/lists/partial"
 
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
 
+topic "Cleaning apt caches"
+apt-get $APT_OPTIONS clean | indent
+
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
