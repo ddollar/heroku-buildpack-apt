@@ -83,7 +83,7 @@ Cflags:
 EOF
 
 topic "Update prefixes in pkg-config files"
-find $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig -name *.pc | xargs sed -i s/prefix=\\/usr/prefix=\\/app\\/.apt\\/usr/
+find $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig -name *.pc | xargs sed -i s/prefix=\\/usr/prefix=\\/$(echo $BUILD_DIR | sed -e 's/[\/&]/\\&/g')\\/.apt\\/usr/
 
 topic "Writing profile script"
 mkdir -p $BUILD_DIR/.profile.d
