@@ -87,7 +87,10 @@ Cflags:
 EOF
 
 topic "Update prefixes in pkg-config files"
-find $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig -name *.pc | xargs replaceInFile "/prefix=/usr" "prefix=$BUILD_DIR/.apt/usr"
+for f in $(find $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig -name *.pc); do
+  echo "Updating $f..." | indent
+  replaceInFile "/prefix=/usr" "prefix=$BUILD_DIR/.apt/usr" $f
+done
 
 topic "Writing profile script"
 mkdir -p $BUILD_DIR/.profile.d
