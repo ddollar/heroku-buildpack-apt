@@ -29,10 +29,6 @@ function indent() {
   esac
 }
 
-function replaceInFile {
-  sed -i "s/$(echo $1 | sed -e 's/\([[\/.*]\|\]\)/\\&/g')/$(echo $2 | sed -e 's/[\/&]/\\&/g')/g" $3
-}
-
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
 
@@ -75,7 +71,7 @@ done
 topic "Update prefixes in pkg-config files"
 for f in $(find $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig -name *.pc); do
   echo "Updating '$f'" | indent
-  replaceInFile "/prefix=/usr" "prefix=$BUILD_DIR/.apt/usr" $f
+  sed -i s@prefix=/usr@prefix=$BUILD_DIR/.apt/usr@ $f
 done
 
 if [[ -e $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc ]]; then
