@@ -68,7 +68,7 @@ for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
 done
 
 topic "Hack: use FFI libs that come with heroku"
-rm $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/libffi* 
+rm -v $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/libffi* | indent
 cat <<EOF >$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc
 prefix=/usr
 exec_prefix=${prefix}
@@ -81,6 +81,9 @@ Version: 3.0.13
 Libs: -lffi
 Cflags:
 EOF
+
+topic "Update prefixes in pkg-config files"
+find $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig -name *.pc | xargs sed -i s/prefix=\\/usr/prefix=\\/app\\/.apt\\/usr/
 
 topic "Writing profile script"
 mkdir -p $BUILD_DIR/.profile.d
