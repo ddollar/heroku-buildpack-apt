@@ -2,7 +2,7 @@
 # bin/detect <build-dir>
 
 if [ -f $1/Aptfile ]; then
-  echo "Apt" && exit 0
+  echo "Apt ATK-heroku-buildpack-apt" && exit 0
 else
-  echo "no" && exit 1
+  echo "Apt file missing during detect" && exit 1
 fi
