@@ -67,12 +67,13 @@ for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
   dpkg -x $DEB $BUILD_DIR/.apt/
 done
 
-
-topic "Update prefixes in pkg-config files"
-for f in $(find $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig -name *.pc); do
-  echo "Updating '$f'" | indent
-  sed -i s@prefix=/usr@prefix=$BUILD_DIR/.apt/usr@ $f
-done
+if [ -e /usr/lib/x86_64-linux-gnu/pkgconfig ]; do
+  topic "Update prefixes in pkg-config files"
+  for f in $(find $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig -name *.pc); do
+    echo "Updating '$f'" | indent
+    sed -i s@prefix=/usr@prefix=$BUILD_DIR/.apt/usr@ $f
+  done
+fi
 
 if [[ -e $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc ]]; then
   topic "Use FFI libs that come with heroku"
