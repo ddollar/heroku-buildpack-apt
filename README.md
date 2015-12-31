@@ -8,6 +8,8 @@ This buildpack works best with [heroku-buildpack-multi](https://github.com/ddoll
 
 Include a list of apt package names to be installed in a file named `Aptfile`
 
+Optionally, include a list of additional apt repositories in a file named `Aptsources`. Use the same syntax as you normally do in `/etc/apt/source.list`.
+
 ## Example
 
 #### .buildpacks

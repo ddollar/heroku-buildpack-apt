@@ -35,7 +35,14 @@ APT_STATE_DIR="$CACHE_DIR/apt/state"
 mkdir -p "$APT_CACHE_DIR/archives/partial"
 mkdir -p "$APT_STATE_DIR/lists/partial"
 
-APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
+if [[ -e $BUILD_DIR/Aptsources ]]; then
+  APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR -o dir::etc::sourcelist=$BUILD_DIR/Aptsources"
+else
+  APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
+fi
+
+topic "Cleaning apt caches"
+apt-get $APT_OPTIONS clean | indent
 
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
@@ -59,6 +66,31 @@ for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
   topic "Installing $(basename $DEB)"
   dpkg -x $DEB $BUILD_DIR/.apt/
 done
+
+if [[ -e $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig ]]; then
+  topic "Update prefixes in pkg-config files"
+  for f in $(find $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig -name *.pc); do
+    echo "Updating '$f'" | indent
+    sed -i s@prefix=/usr@prefix=$BUILD_DIR/.apt/usr@ $f
+  done
+fi
+
+if [[ -e $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc ]]; then
+  topic "Use FFI libs that come with heroku"
+  rm -v $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/libffi* | indent
+  cat <<EOF >$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libffi
+Description: Library supporting Foreign Function Interfaces
+Version: 3.0.13
+Libs: -lffi
+Cflags:
+EOF
+fi
 
 topic "Writing profile script"
 mkdir -p $BUILD_DIR/.profile.d
