@@ -79,7 +79,7 @@ export INCLUDE_PATH="$BUILD_DIR/.apt/usr/include:$INCLUDE_PATH"
 export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
 export PIP_GLOBAL_OPTION="build_ext -I/app/.apt/usr/include -L/app/.apt/usr/lib"
-export PYTHONPATH="$BUILD_DIR/.apt/usr/lib/python2.7site-packages:$PYTHONPATH"
+export PYTHONPATH="$BUILD_DIR/.apt/usr/lib/python2.7/dist-packages:$PYTHONPATH"
 export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 #give environment to later buildpacks
