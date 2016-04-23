@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
+echo "This buildpack has been deprecated. Please choose a different buildpack or fork to your own account."
+exit 1
+
 if [ -f $1/Aptfile ]; then
   echo "Apt" && exit 0
 else
