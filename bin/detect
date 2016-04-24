@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
-echo "This buildpack has been deprecated. Please choose a different buildpack or fork to your own account."
-exit 1
+echo "WARNING: This buildpack is no longer maintained."
+echo
+echo "Please choose a different buildpack or go to https://github.com/ddollar/heroku-buildpack-multi"
+echo "and fork it to your own account."
+echo
+echo "This buildpack will cease to function at the stroke of midnight on January 1, 2017."
+
+[ $(date +%Y%m%d%H%M%S) -gt "20170101000000" ] && exit 1
 
 if [ -f $1/Aptfile ]; then
   echo "Apt" && exit 0
