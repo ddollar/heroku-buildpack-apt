@@ -1,2 +1,3 @@
-libpq-dev
-postgresql-client
+xmlsec1
+libxmlsec1-dev
+libxml2
